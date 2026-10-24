@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#152720">
+    <title>Карта базаров · Базар.kg</title>
+    <link rel="stylesheet" href="atlas-base.css">
+    <link rel="stylesheet" href="map.css">
+    <script src="map-data.js" defer></script>
+    <script src="market-map.js" defer></script>
+</head>
+
+<body class="map-page">
+    <header class="atlas-header"><a class="logo" href="index.html"><span class="mark">Б</span>базар<span
+                class="green-text">.kg</span></a><a href="index.html">← К каталогу</a><span class="atlas-label">Карта
+            базаров Бишкека</span><button id="showSaved" class="btn btn-light">♡ Маршруты <span
+                id="savedCount">0</span></button></header>
+    <main class="atlas-layout">
+        <aside class="atlas-sidebar">
+            <div class="eyebrow">НАЙДИ СВОЙ ПУТЬ</div>
+            <h1 id="sceneTitle">Бишкек</h1>
+            <p id="sceneDescription">Три базара на одной карте. Выберите маркер или приблизьте нужный базар.</p>
+            <div class="market-tabs"><button data-market="dordoi">Дордой <small>Схема и маршруты</small></button><button
+                    data-market="orto">Орто-Сай <small>Схема и маршруты</small></button><button data-market="osh">Ошский
+                    базар <small>Только обзор</small></button></div>
+            <button id="cityView" class="btn btn-light full-width" hidden>← Обзор Бишкека</button>
+            <section id="detailTools" hidden>
+                <label class="switch-row"><input type="checkbox" id="zonesToggle" checked> Цветные регионы</label>
+                <label class="switch-row"><input type="checkbox" id="referenceToggle" checked>
+                    Изображение-основа</label>
+                <div class="region-legend" id="regionLegend"></div>
+                <form id="stallSearch"><label for="stallQuery">Найти демоконтейнер</label>
+                    <div class="inline-search"><input id="stallQuery" placeholder="Например, A1"
+                            autocomplete="off"><button class="btn btn-primary" type="submit">Найти</button></div>
+                </form>
+                <div class="route-card"><span class="eyebrow">МАРШРУТ</span>
+                    <h2 id="targetTitle">Выберите контейнер</h2><label for="entranceSelect">Откуда идём</label><select
+                        id="entranceSelect">
+                        <option value="north">Северный вход</option>
+                        <option value="west">Западный вход</option>
+                        <option value="south">Южный вход</option>
+                    </select>
+                    <p id="targetDescription">Нажмите на контейнер на увеличенной схеме.</p><button
+                        class="btn btn-primary full-width" id="buildRoute" disabled>Показать маршрут</button>
+                    <div id="routeActions" hidden><button class="btn btn-light full-width" id="startNavigation">Начать
+                            навигацию</button><button class="btn btn-light full-width" id="saveRoute">♡ Сохранить
+                            маршрут</button><button class="text-button" id="clearRoute">Сбросить маршрут</button></div>
+                    <ol id="routeSteps"></ol>
+                    <div id="navigationControls" hidden>
+                        <p id="navigationStep" aria-live="polite"></p><button class="btn btn-primary"
+                            id="nextStep">Следующий шаг</button><button class="text-button"
+                            id="stopNavigation">Завершить</button>
+                    </div>
+                </div>
+            </section>
+            <section id="productContext" hidden
+                style="padding:16px;background:#edf5ed;border-radius:12px;margin:18px 0">
+                <h2 id="productName"></h2>
+                <p id="productLocation"></p><a id="productWhatsApp" class="btn btn-primary" target="_blank"
+                    rel="noopener noreferrer">Связаться с торговцем ↗</a>
+            </section>
+            <section id="savedPanel" hidden>
+                <h2>Сохранённые маршруты</h2>
+                <p class="muted">Доступны в этом браузере.</p>
+                <div id="savedList"></div>
+            </section>
+            <p class="atlas-notice">MVP · Обзорные маркеры приблизительные. Регионы, контейнеры и маршруты
+                демонстрационные. Это не GPS-навигация и не проверенный план проходов.</p>
+        </aside>
+        <section class="atlas-canvas" aria-label="Интерактивная карта">
+            <div class="map-breadcrumb"><span id="mapBreadcrumb">Бишкек · обзор</span><span
+                    class="demo-pill">ДЕМО</span></div>
+            <svg id="atlasSvg" viewBox="0 0 1300 676" role="img" aria-label="Карта Бишкека с базарами"></svg>
+            <div class="atlas-controls"><button id="zoomIn" aria-label="Увеличить">+</button><button id="zoomOut"
+                    aria-label="Уменьшить">−</button><button id="resetView" aria-label="Сбросить масштаб">↺</button>
+            </div>
+            <div class="atlas-caption"><span id="mapHint">Выберите базар на карте</span><span id="zoomLabel">100%</span>
+            </div>
+            <div id="mapMessage" class="map-message" role="status" aria-live="polite"></div>
+            <div class="map-credit">Основа: изображения пользователя · Обзор Бишкека © Google, 2026 · Регионы и проходы:
+                демонстрация</div>
+        </section>
+    </main>
+</body>
+
+</html>

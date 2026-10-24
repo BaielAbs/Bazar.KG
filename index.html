@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BAZAR KG — найди своё на базаре</title>
+<style>
+    * {
+        box-sizing: border-box
+    }
+
+    body {
+        margin: 0;
+        background: #f6f7f9;
+        color: #19252a;
+        font: 15px Arial, sans-serif
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+        font: inherit
+    }
+
+    button,
+    a {
+        cursor: pointer
+    }
+
+    button {
+        border: 0
+    }
+
+    header {
+        background: white;
+        border-bottom: 1px solid #e5e9e8;
+        padding: 22px 5%;
+        display: flex;
+        align-items: center;
+        gap: 35px
+    }
+
+    .logo {
+        font-size: 25px;
+        font-weight: 900;
+        letter-spacing: -1px
+    }
+
+    .logo span {
+        color: #07846a
+    }
+
+    nav {
+        display: flex;
+        gap: 25px;
+        flex: 1
+    }
+
+    nav button {
+        background: none;
+        color: #657270
+    }
+
+    nav button.active {
+        color: #087d65;
+        font-weight: bold
+    }
+
+    .seller,
+    .primary {
+        background: #087d65;
+        color: white;
+        padding: 13px 20px;
+        border-radius: 10px
+    }
+
+    .demo {
+        background: #edf5df;
+        color: #60723d;
+        padding: 9px;
+        text-align: center;
+        font-size: 12px
+    }
+
+    main {
+        max-width: 1370px;
+        margin: auto;
+        padding: 32px 5%
+    }
+
+    .hero {
+        background: #e4efe8;
+        border-radius: 22px;
+        min-height: 270px;
+        padding: 38px;
+        position: relative;
+        overflow: hidden
+    }
+
+    .eyebrow {
+        font-size: 11px;
+        letter-spacing: 2px;
+        font-weight: bold;
+        color: #56836c
+    }
+
+    h1 {
+        font-size: 42px;
+        line-height: 1.12;
+        letter-spacing: -1.5px;
+        margin: 15px 0
+    }
+
+    p {
+        color: #72807b;
+        line-height: 1.6
+    }
+
+    .hero p {
+        max-width: 480px
+    }
+
+    .hero-art {
+        position: absolute;
+        right: 30px;
+        top: 30px;
+        font-size: 110px;
+        transform: rotate(-9deg);
+        background: #ceded1;
+        border-radius: 45px;
+        padding: 30px
+    }
+
+    .search {
+        display: flex;
+        gap: 10px;
+        margin: 24px 0 18px
+    }
+
+    .search input {
+        flex: 1;
+        border: 1px solid #dfe5e2;
+        background: white;
+        padding: 17px;
+        border-radius: 11px;
+        min-width: 0
+    }
+
+    .secondary {
+        background: white;
+        border: 1px solid #dce4df;
+        border-radius: 10px;
+        padding: 12px 17px;
+        color: #344b42
+    }
+
+    .chips {
+        display: flex;
+        gap: 9px;
+        flex-wrap: wrap;
+        margin-bottom: 30px
+    }
+
+    .chip {
+        background: white;
+        padding: 11px 17px;
+        border: 1px solid #e1e7e3;
+        border-radius: 30px;
+        color: #64736c
+    }
+
+    .chip.selected {
+        background: #183e32;
+        color: white;
+        border-color: #183e32
+    }
+
+    .layout {
+        display: grid;
+        grid-template-columns: 210px 1fr;
+        gap: 28px
+    }
+
+    .filters {
+        padding: 20px;
+        background: white;
+        border-radius: 15px;
+        align-self: start
+    }
+
+    .filters label {
+        display: block;
+        margin: 18px 0 8px;
+        font-weight: bold;
+        font-size: 13px
+    }
+
+    .filters select,
+    .filters input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #dce4df;
+        border-radius: 8px
+    }
+
+    .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 0 18px
+    }
+
+    .section-head h2 {
+        margin: 0;
+        font-size: 23px
+    }
+
+    .muted {
+        font-size: 12px;
+        color: #829087
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e9ecea;
+        border-radius: 15px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: .2s
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 9px 25px #173c3210
+    }
+
+    .photo {
+        height: 190px;
+        background: #eeede8;
+        position: relative;
+        overflow: hidden
+    }
+
+    .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover
+    }
+
+    .badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: #ffffffed;
+        border-radius: 6px;
+        padding: 6px 9px;
+        font-size: 10px
+    }
+
+    .heart {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background: white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px
+    }
+
+    .info {
+        padding: 17px
+    }
+
+    .price {
+        font-size: 21px;
+        font-weight: bold
+    }
+
+    .info h3 {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 9px 0 15px
+    }
+
+    .location {
+        font-size: 11px;
+        color: #7b8981
+    }
+
+    .card-bottom {
+        border-top: 1px solid #eef1ef;
+        padding-top: 12px;
+        margin-top: 13px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: #728078
+    }
+
+    .map-link {
+        color: #087d65;
+        font-weight: bold
+    }
+
+    .hide {
+        display: none !important
+    }
+
+    footer {
+        padding: 30px 5%;
+        border-top: 1px solid #e0e5e2;
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        color: #7b8880;
+        font-size: 12px
+    }
+
+    .mapwrap {
+        background: #e9eee9;
+        border: 1px solid #d6dfd7;
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative
+    }
+
+    .mapwrap svg {
+        width: 100%;
+        display: block;
+        min-height: 310px
+    }
+
+    .map-toolbar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin: 20px 0
+    }
+
+    .map-toolbar select {
+        padding: 12px;
+        border: 1px solid #d8e1da;
+        border-radius: 9px
+    }
+
+    .maplegend {
+        display: flex;
+        gap: 20px;
+        padding: 15px;
+        font-size: 12px;
+        background: white
+    }
+
+    .route-details {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 15px
+    }
+
+    .saved-item {
+        padding: 18px;
+        background: white;
+        margin: 10px 0;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 15px
+    }
+
+    .modal {
+        position: fixed;
+        inset: 0;
+        background: #172a2477;
+        z-index: 10;
+        display: grid;
+        place-items: center;
+        padding: 20px
+    }
+
+    .dialog {
+        background: white;
+        padding: 28px;
+        border-radius: 20px;
+        max-width: 600px;
+        width: 100%;
+        max-height: 90vh;
+        overflow: auto;
+        position: relative
+    }
+
+    .close {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        background: #eef2ee;
+        border-radius: 50%;
+        padding: 8px 12px
+    }
+
+    .dialog img {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        border-radius: 10px
+    }
+
+    .dialog input,
+    .dialog select,
+    .dialog textarea {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #dbe2dd;
+        border-radius: 8px;
+        margin: 8px 0 16px
+    }
+
+    .dialog label {
+        font-size: 12px;
+        color: #62766b
+    }
+
+    .toast {
+        position: fixed;
+        bottom: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #183e32;
+        color: white;
+        padding: 14px 22px;
+        border-radius: 10px;
+        z-index: 20
+    }
+
+    .empty {
+        padding: 60px;
+        text-align: center;
+        color: #74867b;
+        grid-column: 1/-1
+    }
+
+    .seller-note {
+        padding: 15px;
+        background: #fff2d9;
+        border-radius: 10px;
+        color: #806429;
+        line-height: 1.6
+    }
+
+    .seller-list {
+        margin-top: 20px
+    }
+
+    .seller-list .saved-item {
+        align-items: center
+    }
+
+    .seller-list button {
+        padding: 10px;
+        border-radius: 8px
+    }
+
+    .favorite-title {
+        display: flex;
+        gap: 10px
+    }
+
+    @media(max-width:950px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr)
+        }
+
+        .hero-art {
+            right: -40px;
+            opacity: .3
+        }
+
+        .layout {
+            grid-template-columns: 170px 1fr
+        }
+
+        header {
+            gap: 15px
+        }
+
+        nav {
+            gap: 10px
+        }
+    }
+
+    @media(max-width:650px) {
+        header {
+            flex-wrap: wrap;
+            padding: 18px 5%
+        }
+
+        nav {
+            order: 3;
+            flex-basis: 100%;
+            justify-content: space-between
+        }
+
+        .seller {
+            margin-left: auto;
+            padding: 10px;
+            font-size: 12px
+        }
+
+        .hero {
+            padding: 25px
+        }
+
+        h1 {
+            font-size: 33px
+        }
+
+        .hero-art {
+            display: none
+        }
+
+        .layout {
+            display: block
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 12px
+        }
+
+        .filters label {
+            display: none
+        }
+
+        .filters select,
+        .filters input {
+            width: calc(50% - 5px)
+        }
+
+        .grid {
+            gap: 10px
+        }
+
+        .photo {
+            height: 150px
+        }
+
+        .info {
+            padding: 12px
+        }
+
+        .search {
+            flex-wrap: wrap
+        }
+
+        .search input {
+            flex-basis: 75%
+        }
+
+        .search .primary {
+            flex: 1
+        }
+
+        .photo-button {
+            width: 100%
+        }
+
+        .section-head h2 {
+            font-size: 19px
+        }
+
+        .section-head select {
+            max-width: 130px
+        }
+
+        .card-bottom {
+            font-size: 9px
+        }
+
+        .hero p {
+            font-size: 13px
+        }
+
+        .maplegend {
+            flex-wrap: wrap
+        }
+
+        footer {
+            gap: 15px
+        }
+    }
+
+    .whatsapp {
+        display: inline-block;
+        text-decoration: none;
+        margin-top: 12px
+    }
+
+    .selected-location {
+        font-size: 18px;
+        color: #087d65;
+        margin: 12px 0;
+        font-weight: bold
+    }
+</style>
+<header>
+    <div class="logo">BAZAR<span> KG</span><small
+            style="display:block;font-size:9px;letter-spacing:2px;color:#8a978d;margin-top:5px">НАХОДКИ РЯДОМ</small>
+    </div>
+    <nav><button data-view="catalog" class="active">Каталог</button><button data-view="map">Карта
+            базаров</button><button data-view="saved">Сохранённое</button></nav><button class="seller"
+        onclick="showSeller()">＋ Я продавец</button>
+</header>
+<div class="demo">Демонстрационный MVP · товары, продавцы и схемы условные · изменения сохраняются в этом браузере</div>
+<main>
+    <section id="catalog">
+        <div class="hero">
+            <div class="eyebrow">БИШКЕК · БАЗАРЫ В ОДНОМ МЕСТЕ</div>
+            <h1>Найди своё.<br>Мы покажем дорогу.</h1>
+            <p>Сравнивай товары на базарах Бишкека<br>и находи нужный магазин без лишних кругов.</p>
+            <div class="hero-art">🛍️</div>
+        </div>
+        <div class="search"><input id="query" placeholder="Кроссовки, куртка, наушники…"
+                aria-label="Поиск товаров"><button class="primary" onclick="render()">Найти →</button><button
+                class="secondary photo-button" onclick="photoSearch()">▣ Поиск по фото</button></div>
+        <div class="chips" id="chips"></div>
+        <div class="layout">
+            <aside class="filters"><strong>Фильтры</strong><label>Базар</label><select id="market" aria-label="Базар">
+                    <option value="">Все базары</option>
+                    <option>Дордой</option>
+                    <option>Орто-Сай</option>
+                    <option>Ошский базар</option>
+                </select><label>Цена, сом</label><input id="maxPrice" type="number" min="0"
+                    placeholder="Максимальная цена" aria-label="Максимальная цена"><button class="secondary"
+                    style="margin-top:15px;width:100%" onclick="resetFilters()">Сбросить</button>
+                <p class="muted">Демоассортимент.<br>Наличие не подтверждено.</p>
+            </aside>
+            <div>
+                <div class="section-head">
+                    <div>
+                        <h2>Находки на базаре</h2><span class="muted" id="count"></span>
+                    </div><select id="sort" class="secondary" aria-label="Сортировка">
+                        <option value="default">Сначала интересное</option>
+                        <option value="asc">Дешевле</option>
+                        <option value="desc">Дороже</option>
+                    </select>
+                </div>
+                <div id="products" class="grid"></div>
+            </div>
+        </div>
+    </section>
+    <section id="map" class="hide">
+        <div class="eyebrow">ПРОСТОЙ ПУТЬ К ПОКУПКЕ</div>
+        <h1>Базар без лабиринтов</h1>
+        <p>Условная схема для демонстрации. Не используйте её для реальной навигации.</p>
+        <div class="map-toolbar"><select id="mapMarket" aria-label="Базар на схеме">
+                <option>Дордой</option>
+                <option>Орто-Сай</option>
+                <option>Ошский базар</option>
+            </select><select id="entrance" aria-label="Вход">
+                <option value="west">Западный вход</option>
+                <option value="south">Южный вход</option>
+            </select><button class="primary" onclick="buildRoute()">Построить маршрут</button><button class="secondary"
+                onclick="saveRoute()">♡ Сохранить маршрут</button><button class="secondary"
+                onclick="regions=!regions;drawMap()">Цветные зоны</button></div>
+        <div class="mapwrap" id="mapCanvas"></div>
+        <div id="routeInfo" class="route-details"></div>
+    </section>
+    <section id="saved" class="hide">
+        <h1>Сохранённое</h1>
+        <h2>Маршруты</h2>
+        <div id="savedRoutes"></div>
+        <h2>Избранные товары</h2>
+        <div id="favorites" class="grid"></div>
+    </section>
+    <section id="seller" class="hide">
+        <h1>Мой магазин</h1>
+        <div class="seller-note">Демокабинет без регистрации. Это локальная демонстрация управления товарами, а не
+            защищённый аккаунт. Добавленные товары видны только в этом браузере.</div>
+        <div class="section-head" style="margin-top:25px">
+            <h2>Товары демомагазина</h2><button class="primary" onclick="editProduct()">＋ Добавить товар</button>
+        </div>
+        <div id="sellerProducts" class="seller-list"></div>
+    </section>
+</main>
+<footer>
+    <div class="logo" style="font-size:18px">BAZAR<span> KG</span></div><span>Поиск товаров. Знакомство с продавцом.
+        Путь до магазина.</span><span>Демо · Бишкек, 2026</span>
+</footer>
+<div id="modal" class="modal hide" role="dialog" aria-modal="true" aria-label="Подробности">
+    <div class="dialog" id="dialog"></div>
+</div>
+<div id="toast" class="toast hide" role="status"></div>
+<script src="map-data.js"></script>
+<script src="app.js?v=3"></script>
+
+</html>
